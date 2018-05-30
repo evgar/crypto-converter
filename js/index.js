@@ -1,3 +1,5 @@
+let compareCurrency;
+
 const CURRENCIES = {
 	'Bit20': 'BCH',
 	'Limited Coin': 'ETH',
@@ -11,6 +13,18 @@ const CURRENCIES = {
 	'bitGold': 'ELA'
 };
 
+function getTopToUSDCurrencies() {
+		let allCurrencies = [];
+		fetch('https://api.coinmarketcap.com/v2/ticker/')
+		.then(response => response.json())
+		.then(list => {
+			allCurrencies = Object.values(list.data).sort((obj1, obj2) =>  {
+				return obj2.quotes.USD.price - obj1.quotes.USD.price;
+			}).splice(0,10);
+			console.log(allCurrencies);
+		});
+}
+
 function renderOptionsList(currencies) {
 	const SELECT_LIST = document.querySelector('#currenciesList');
 	let selectHTML = Object.keys(currencies).map(item => optionTemplate(currencies[item])).join('');
@@ -21,7 +35,9 @@ function renderOptionsList(currencies) {
 function getDataFromAPI(value) {
 	fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=' + value)
 		.then(response =>  response.json())
-		.then(data => countCurrency(data[Object.keys(data)[0]]))
+		.then(data => {
+			compareCurrency = data[Object.keys(data)[0]]
+			countCurrency(compareCurrency)})
 		.catch(error => alert('Request failed' + error));
 }
 
@@ -37,8 +53,8 @@ function optionTemplate(currencyCode) {
 };
 
 function eventHandlers(selectList) {
-	console.log(selectList.value);
-	selectList.addEventListener('change', event => getDataFromAPI(event.srcElement.value));
+	selectList.addEventListener('change', event => getDataFromAPI(event.target.value));
 }
 
 renderOptionsList(CURRENCIES);
+getTopToUSDCurrencies();
