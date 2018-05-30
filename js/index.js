@@ -63,7 +63,12 @@ function addOutput() {
 }
 
 function outputTemplate() {
-	return `${mainCurrency.value} BTC = ${compareCurrencyPrice * mainCurrency.value} ${compareCurrencyCode}`;
+	if(compareCurrencyPrice && compareCurrencyCode){
+		return `${mainCurrency.value} BTC = ${compareCurrencyPrice * mainCurrency.value} ${compareCurrencyCode}`;
+
+	}
+	return 'Choose currency, please'
+
 }
 
 function eventHandlers(selectList) {
@@ -71,7 +76,7 @@ function eventHandlers(selectList) {
 		getDataFromAPI(event.target.value);
 		removeEmptyOption();
 	});
-	mainCurrency.addEventListener('change', event => countCurrency())
+	mainCurrency.addEventListener('input', event => countCurrency())
 }
 
 getTopToUSDCurrencies();
