@@ -1,0 +1,17 @@
+.calculator {
+	display: flex;
+	justify-content: center;
+}
+
+.comparable-currency {
+	margin: 10px;
+}
+
+.currencies-list {
+	margin: 10px;
+	min-width: 150px;
+}
+
+.currencies-list > option {
+	text-align: center;
+}
