@@ -1,21 +1,25 @@
 let compareCurrency;
 let currencies = [];
-const mainCurrency = document.querySelector('.comparable-currency');
+let mainCurrency = document.querySelector('.comparable-currency');
 
 function getTopToUSDCurrencies() {
 		fetch('https://api.coinmarketcap.com/v2/ticker/')
 		.then(response => response.json())
 		.then(list => {
-			Object.values(list.data).sort((obj1, obj2) =>  {
-				return obj2.quotes.USD.price - obj1.quotes.USD.price;
-			}).splice(0,10).forEach(item => currencies.push(item.symbol));
+			currencies = Object.values(list.data)
+					.filter(item => item.symbol !== 'BTC')
+					.sort((obj1, obj2) => obj2.quotes.USD.price - obj1.quotes.USD.price)
+					.splice(0, 10)
+					.map(item => item.symbol);
+			console.log(currencies);
 			renderOptionsList(currencies);
 		});
 }
 
 function renderOptionsList(currencies) {
-	const SELECT_LIST = document.querySelector('#currenciesList');
-	let selectHTML = Object.keys(currencies).map(item => optionTemplate(currencies[item])).join('');
+	const SELECT_LIST = document.querySelector('.currencies-list');
+	let emptyOption = `<option disabled selected value> Select currency </option>`;
+	let selectHTML = emptyOption + Object.keys(currencies).map(item => optionTemplate(currencies[item])).join('');
 	SELECT_LIST.innerHTML = selectHTML;
 	eventHandlers(SELECT_LIST);
 };
@@ -30,11 +34,17 @@ function getDataFromAPI(value) {
 }
 
 function countCurrency() {
+	removeEmptyOption();
 	if(!compareCurrency) {
 		console.log('Select currency to compare please');
 	}else {
 		console.log(compareCurrency * mainCurrency.value);
 	}
+}
+
+function removeEmptyOption () {
+	let currenciesList = document.querySelector('.currencies-list');
+	currenciesList.removeChild(currenciesList.childNodes[0]);
 }
 
 function optionTemplate(currencyCode) {
