@@ -1,27 +1,15 @@
 let compareCurrency;
-
-const CURRENCIES = {
-	'Bit20': 'BCH',
-	'Limited Coin': 'ETH',
-	'Project-X': 'DASH',
-	'42Coin': 'ZEC',
-	'bitBTC': 'XMR',
-	'Remicoin': 'LTC',
-	'IDEX Membership': 'DCR',
-	'SyncCoin': 'NEO',
-	'YbCoin': 'BTG',
-	'bitGold': 'ELA'
-};
+let currencies = [];
+const mainCurrency = document.querySelector('.comparable-currency');
 
 function getTopToUSDCurrencies() {
-		let allCurrencies = [];
 		fetch('https://api.coinmarketcap.com/v2/ticker/')
 		.then(response => response.json())
 		.then(list => {
-			allCurrencies = Object.values(list.data).sort((obj1, obj2) =>  {
+			Object.values(list.data).sort((obj1, obj2) =>  {
 				return obj2.quotes.USD.price - obj1.quotes.USD.price;
-			}).splice(0,10);
-			console.log(allCurrencies);
+			}).splice(0,10).forEach(item => currencies.push(item.symbol));
+			renderOptionsList(currencies);
 		});
 }
 
@@ -36,14 +24,13 @@ function getDataFromAPI(value) {
 	fetch('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=' + value)
 		.then(response =>  response.json())
 		.then(data => {
-			compareCurrency = data[Object.keys(data)[0]]
+			compareCurrency = data[Object.keys(data)[0]];
 			countCurrency(compareCurrency)})
-		.catch(error => alert('Request failed' + error));
+		.catch(error => console.log('Request failed' + error));
 }
 
-function countCurrency(price) {
-	const AMMOUNT_INPUT = document.querySelector('#comparableCurrency');
-	console.log(price*AMMOUNT_INPUT.value);
+function countCurrency() {
+	console.log(compareCurrency * mainCurrency.value);
 }
 
 function optionTemplate(currencyCode) {
@@ -54,7 +41,9 @@ function optionTemplate(currencyCode) {
 
 function eventHandlers(selectList) {
 	selectList.addEventListener('change', event => getDataFromAPI(event.target.value));
+	mainCurrency.addEventListener('change', event => countCurrency())
 }
 
-renderOptionsList(CURRENCIES);
 getTopToUSDCurrencies();
+
+
