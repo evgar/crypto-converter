@@ -30,7 +30,11 @@ function getDataFromAPI(value) {
 }
 
 function countCurrency() {
-	console.log(compareCurrency * mainCurrency.value);
+	if(!compareCurrency) {
+		console.log('Select currency to compare please');
+	}else {
+		console.log(compareCurrency * mainCurrency.value);
+	}
 }
 
 function optionTemplate(currencyCode) {
