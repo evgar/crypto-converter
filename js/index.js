@@ -40,7 +40,7 @@ function countCurrency() {
 	addOutput();
 }
 
-function removeEmptyOption () {
+function removeEmptyOption() {
 	let currenciesList = document.querySelector('.currencies-list');
 	currenciesList.removeChild(currenciesList.childNodes[0]);
 }
