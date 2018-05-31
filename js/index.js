@@ -1,7 +1,6 @@
 let compareCurrencyPrice;
 let compareCurrencyCode;
 let currencies = [];
-let parentBlock = document.querySelector('.calculator');
 let mainCurrency = document.querySelector('.comparable-currency');
 let outputInfo = document.querySelector('.output');
 
@@ -19,11 +18,11 @@ function getTopToUSDCurrencies() {
 }
 
 function renderOptionsList(currencies) {
-	const SELECT_LIST = document.querySelector('.currencies-list');
+	const selectList = document.querySelector('.currencies-list');
 	let emptyOption = `<option disabled selected value> Select currency </option>`;
 	let selectHTML = emptyOption + Object.keys(currencies).map(item => optionTemplate(currencies[item])).join('');
-	SELECT_LIST.innerHTML = selectHTML;
-	eventHandlers(SELECT_LIST);
+	selectList.innerHTML = selectHTML;
+	eventHandlers(selectList);
 }
 
 function getDataFromAPI(value) {
@@ -39,12 +38,6 @@ function getDataFromAPI(value) {
 
 function countCurrency() {
 	addOutput();
-	// if(!compareCurrencyPrice) {
-	// 	console.log('Select currency to compare please');
-	// }else {
-	// 	console.log(compareCurrencyPrice * mainCurrency.value);
-	// }
-
 }
 
 function removeEmptyOption () {
