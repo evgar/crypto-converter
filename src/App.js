@@ -6,7 +6,7 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			list: [],
+			topCurrencies: {},
 			mainCurrency: {}
 		}
 	}
@@ -23,22 +23,30 @@ class App extends Component {
 				}
 			})
 			.then(currencies => {
-				this._getMainCurrency(currencies);
-				this.setState({list: {currencies}})
+				let mainCurrency = this._getMainCurrency(currencies);
+				let topCurrencies = this._getTopCurrencies(currencies);
+				this.setState({topCurrencies, mainCurrency});
 			})
 	}
 
 	_getMainCurrency (currencies) {
-		let mainCurrency =  Object.values(currencies.data).find(item => item.symbol === 'BTC');
-		this.setState({mainCurrency});
+		return  Object.values(currencies.data)
+			.find(item => item.symbol === 'BTC');
+	}
+
+	_getTopCurrencies(currencies) {
+		return Object.values(currencies.data)
+			.sort((currency1, currency2) => currency2.quotes.USD.price - currency1.quotes.USD.price)
+			.filter(cyrrency => cyrrency.symbol !== 'BTC')
+			.splice(0, 10);
 	}
 
 	render() {
 		return (
 			<section>
 				<p>Hello</p>
-				<AmmountSelector symbol={this.state.mainCurrency.symbol}/>
-				<CurrencySelector />
+				<AmmountSelector symbol={this.state.mainCurrency.symbol} />
+				<CurrencySelector currencies={this.state.topCurrencies} />
 				<Output />
 			</section>
 		)
@@ -49,21 +57,19 @@ class AmmountSelector extends Component {
 	render() {
 		return (
 			<label>{this.props.symbol}
-				<input type="number" min="1" value="1" />
+				<input type="number" min="1" defaultValue="1"/>
 			</label>
 		);
 	}
 }
 
 class CurrencySelector extends Component {
+
 	render() {
+		console.log(this.props);
 		return (
 			<select>
-				<option>1</option>
-				<option>2</option>
-				<option>3</option>
-				<option>4</option>
-				<option>5</option>
+				{Object.values(this.props.currencies).map((currency, i) => <option key={i}>{currency.symbol}</option>)}
 			</select>
 		);
 	}
