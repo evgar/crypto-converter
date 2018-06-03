@@ -112,7 +112,14 @@ class CurrencySelector extends Component {
 
 class Output extends Component{
 	render() {
-		return (<p> 1 {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>);
+		return (
+		<div>
+			{this.props.mainSymbol && this.props.equivalent && this.props.comparedSymbol &&
+			<p> 1 {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>
+			|| <p>Select currency, please</p>}
+		</div>
+			);
+
 	}
 }
 
