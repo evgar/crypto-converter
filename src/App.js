@@ -12,7 +12,8 @@ class App extends Component {
 				value: null,
 				symbol: ''
 			},
-			equivalentToBTC: null
+			equivalentToBTC: null,
+			amount: 1
 		};
 		this._handleCurrencyChange = this._handleCurrencyChange.bind(this);
 		this._handleAmountChange = this._handleAmountChange.bind(this);
@@ -48,7 +49,8 @@ class App extends Component {
 	}
 
 	_handleAmountChange(value) {
-		console.log(value);
+		let newEquvalent = this.state.equivalentToBTC * value;
+		this.setState((prevState,props) => ({amount: value , equivalentToBTC: newEquvalent}));
 	}
 
 	_handleCurrencyChange(value, symbol) {
@@ -60,9 +62,10 @@ class App extends Component {
 		return (
 			<section>
 				<p>Hello</p>
-				<AmmountSelector symbol={this.state.mainCurrency.symbol} onAmmountSelectorChange={this._handleAmountChange} />
+				<AmmountSelector symbol={this.state.mainCurrency.symbol} amount={this.state.amount} onAmmountSelectorChange={this._handleAmountChange} />
 				<CurrencySelector currencies={this.state.topCurrencies} onCurrencySelectorChange={this._handleCurrencyChange} />
-				<Output mainSymbol={this.state.mainCurrency.symbol} equivalent={this.state.equivalentToBTC} comparedSymbol={this.state.comparableCurrency.symbol}/>
+				<Output amount={this.state.amount} mainSymbol={this.state.mainCurrency.symbol}
+						equivalent={this.state.equivalentToBTC} comparedSymbol={this.state.comparableCurrency.symbol}/>
 			</section>
 		)
 	}
@@ -81,15 +84,19 @@ class AmmountSelector extends Component {
 	render() {
 		return (
 			<label>{this.props.symbol}
-				<input onChange={(e) => this._handleChange(e)} type="number" min="1" defaultValue="1"/>
+				<input onChange={(e) => this._handleChange(e)} type="number" min="1" value={this.props.amount} />
 			</label>
 		);
 	}
 }
 
 class CurrencySelector extends Component {
-	constructor(props) {
-		super(props);
+
+	constructor() {
+		super();
+		this.state = {
+			selected: false
+		}
 	}
 
 	_handleChange(event) {
@@ -98,8 +105,11 @@ class CurrencySelector extends Component {
 	}
 
 	render() {
+		let visibility = this.state.selected ? '' : 'hidden';
+
 		return (
-			<select onChange={(e) => this._handleChange(e)}>
+			<select onChange={(e) => this._handleChange(e)} defaultValue='default'>
+				<option disabled value='default' className={visibility}> Select currency </option>
 				{Object.values(this.props.currencies)
 				.map((currency, i) =>
 					<option key={i} value={currency.quotes.USD.price}>
@@ -118,11 +128,10 @@ class Output extends Component{
 		return (
 		<div>
 			{allPropsAreSetted &&
-			<p> 1 {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>
+			<p> {this.props.amount} {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>
 			|| <p>Select currency, please</p>}
 		</div>
 			);
-
 	}
 }
 
