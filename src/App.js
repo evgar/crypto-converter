@@ -54,7 +54,7 @@ class App extends Component {
 	}
 
 	_handleCurrencyChange(value, symbol) {
-		let equivalentToBTC = value/ this.state.mainCurrency.quotes.USD.price;
+		let equivalentToBTC = Math.round(((value / this.state.mainCurrency.quotes.USD.price) * 1000)) / 1000;
 		this.setState({comparableCurrency: {value, symbol}, equivalentToBTC});
 	}
 
