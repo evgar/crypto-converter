@@ -7,10 +7,13 @@ class App extends Component {
 		super();
 		this.state = {
 			topCurrencies: {},
-			mainCurrency: {},
+			mainCurrency: {
+				price: null,
+				symbol: null
+			},
 			comparableCurrency: {
 				value: null,
-				symbol: ''
+				symbol: null
 			},
 			equivalentToBTC: null,
 			amount: 1
@@ -122,16 +125,15 @@ class CurrencySelector extends Component {
 
 class Output extends Component{
 	render() {
-		let allPropsAreSetted = Object.values(this.props).every(item =>  {
-			return item !== null && 'undefined'
-		});
+		let allPropsAreSetted = Object.values(this.props).every(item => item !== null);
+
 		return (
 		<div>
 			{allPropsAreSetted &&
 			<p> {this.props.amount} {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>
 			|| <p>Select currency, please</p>}
 		</div>
-			);
+		);
 	}
 }
 
