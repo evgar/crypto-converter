@@ -33,7 +33,6 @@ class App extends Component {
 				this.mainCurrency = this._getMainCurrency(currencies);
 				this.topCurrencies = this._getTopCurrencies(currencies);
 				this.setState({isDataLoadedFromAPI: true});
-				// this.setState({mainCurrency, topCurrencies});
 			})
 	}
 
@@ -50,13 +49,13 @@ class App extends Component {
 	}
 
 	_handleAmountChange(value) {
-		// let newEquvalent = this.state.currentEquivalentToBTC * value;
 		this.setState((prevState,props) => ({amount: value}));
 	}
 
 	_handleCurrencyChange(value, symbol) {
 
-		let equivalentToBTC = Math.round(((value / this.mainCurrency.quotes.USD.price) * 1000)) / 1000;
+		let equivalentToBTC = Math.round(((this.mainCurrency.quotes.USD.price / value) * 1000)) / 1000;
+		console.log(equivalentToBTC);
 		this.setState({comparableCurrency: {value, symbol}, currentEquivalentToBTC: {equivalentToBTC}});
 	}
 
@@ -130,8 +129,8 @@ class Output extends Component{
 	}
 
 	render() {
-		// let allPropsAreSetted = Object.values(this.props).every(item => item !== null || undefined);
-		let allPropsAreSetted = Object.values(this.props).every(item => !!item);
+		let allPropsAreSetted = Object.values(this.props).every(item => item !== null || undefined);
+		// let allPropsAreSetted = Object.values(this.props).every(item => !!item);
 		return (
 		<div>
 			{allPropsAreSetted
