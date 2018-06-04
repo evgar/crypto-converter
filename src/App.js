@@ -16,7 +16,8 @@ class App extends Component {
 				symbol: null
 			},
 			equivalentToBTC: null,
-			amount: 1
+			amount: 1,
+			currentEquivalentToBTC: null
 		};
 		this._handleCurrencyChange = this._handleCurrencyChange.bind(this);
 		this._handleAmountChange = this._handleAmountChange.bind(this);
@@ -52,13 +53,14 @@ class App extends Component {
 	}
 
 	_handleAmountChange(value) {
-		let newEquvalent = this.state.equivalentToBTC * value;
-		this.setState((prevState,props) => ({amount: value , equivalentToBTC: newEquvalent}));
+		// let newEquvalent = this.state.currentEquivalentToBTC * value;
+		this.setState((prevState,props) => ({amount: value}));
 	}
 
 	_handleCurrencyChange(value, symbol) {
+
 		let equivalentToBTC = Math.round(((value / this.state.mainCurrency.quotes.USD.price) * 1000)) / 1000;
-		this.setState({comparableCurrency: {value, symbol}, equivalentToBTC});
+		this.setState({comparableCurrency: {value, symbol}, currentEquivalentToBTC: {equivalentToBTC}});
 	}
 
 	render() {
@@ -68,7 +70,7 @@ class App extends Component {
 				<AmmountSelector symbol={this.state.mainCurrency.symbol} amount={this.state.amount} onAmmountSelectorChange={this._handleAmountChange} />
 				<CurrencySelector currencies={this.state.topCurrencies} onCurrencySelectorChange={this._handleCurrencyChange} />
 				<Output amount={this.state.amount} mainSymbol={this.state.mainCurrency.symbol}
-						equivalent={this.state.equivalentToBTC} comparedSymbol={this.state.comparableCurrency.symbol}/>
+						equivalent={this.state.currentEquivalentToBTC} comparedSymbol={this.state.comparableCurrency.symbol}/>
 			</section>
 		)
 	}
@@ -124,13 +126,18 @@ class CurrencySelector extends Component {
 }
 
 class Output extends Component{
+	_countEquivalent(amount, equivalent) {
+		return Object.values(equivalent)[0] * amount;
+	}
+
 	render() {
 		let allPropsAreSetted = Object.values(this.props).every(item => item !== null);
-
 		return (
+
+
 		<div>
 			{allPropsAreSetted &&
-			<p> {this.props.amount} {this.props.mainSymbol} = {this.props.equivalent} {this.props.comparedSymbol}</p>
+			<p> {this.props.amount} {this.props.mainSymbol} = {this._countEquivalent(this.props.amount, this.props.equivalent)} {this.props.comparedSymbol}</p>
 			|| <p>Select currency, please</p>}
 		</div>
 		);
