@@ -6,22 +6,18 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = {
-			topCurrencies: {},
-			mainCurrency: {
-				price: null,
-				symbol: null
-			},
-			comparableCurrency: {
-				value: null,
-				symbol: null
-			},
-			equivalentToBTC: null,
+			isDataLoadedFromAPI: false,
+			comparableCurrency: {},
 			amount: 1,
 			currentEquivalentToBTC: null
 		};
+
+		this.topCurrencies = [];
+		this.mainCurrency = {};
 		this._handleCurrencyChange = this._handleCurrencyChange.bind(this);
 		this._handleAmountChange = this._handleAmountChange.bind(this);
 	}
+
 	componentWillMount() {
 		this._fetchCurrencies();
 	}
@@ -34,9 +30,10 @@ class App extends Component {
 				}
 			})
 			.then(currencies => {
-				let mainCurrency = this._getMainCurrency(currencies);
-				let topCurrencies = this._getTopCurrencies(currencies);
-				this.setState({mainCurrency, topCurrencies});
+				this.mainCurrency = this._getMainCurrency(currencies);
+				this.topCurrencies = this._getTopCurrencies(currencies);
+				this.setState({isDataLoadedFromAPI: true});
+				// this.setState({mainCurrency, topCurrencies});
 			})
 	}
 
@@ -59,17 +56,18 @@ class App extends Component {
 
 	_handleCurrencyChange(value, symbol) {
 
-		let equivalentToBTC = Math.round(((value / this.state.mainCurrency.quotes.USD.price) * 1000)) / 1000;
+		let equivalentToBTC = Math.round(((value / this.mainCurrency.quotes.USD.price) * 1000)) / 1000;
 		this.setState({comparableCurrency: {value, symbol}, currentEquivalentToBTC: {equivalentToBTC}});
 	}
 
 	render() {
+
 		return (
 			<section>
 				<p>Hello</p>
-				<AmmountSelector symbol={this.state.mainCurrency.symbol} amount={this.state.amount} onAmmountSelectorChange={this._handleAmountChange} />
-				<CurrencySelector currencies={this.state.topCurrencies} onCurrencySelectorChange={this._handleCurrencyChange} />
-				<Output amount={this.state.amount} mainSymbol={this.state.mainCurrency.symbol}
+				<AmmountSelector symbol={this.mainCurrency.symbol} amount={this.state.amount} onAmmountSelectorChange={this._handleAmountChange} />
+				<CurrencySelector currencies={this.topCurrencies} onCurrencySelectorChange={this._handleCurrencyChange} />
+				<Output amount={this.state.amount} mainSymbol={this.mainCurrency.symbol}
 						equivalent={this.state.currentEquivalentToBTC} comparedSymbol={this.state.comparableCurrency.symbol}/>
 			</section>
 		)
@@ -106,7 +104,8 @@ class CurrencySelector extends Component {
 
 	_handleChange(event) {
 		let targetOption = Array.from(event.target.options).find(option => event.target.value === option.value);
-		this.props.onCurrencySelectorChange(targetOption.value, targetOption.innerHTML);
+		this.props.onCurrencySelectorChange(targetOption.value, targetOption.attributes['symbol'].value);
+		console.log(this.props);
 	}
 
 	render() {
@@ -117,7 +116,7 @@ class CurrencySelector extends Component {
 				<option disabled value='default' className={visibility}> Select currency </option>
 				{Object.values(this.props.currencies)
 				.map((currency, i) =>
-					<option key={i} value={currency.quotes.USD.price}>
+					<option key={i} value={currency.quotes.USD.price} symbol={currency.symbol}>
 						{currency.symbol}
 					</option>)}
 			</select>
@@ -131,14 +130,14 @@ class Output extends Component{
 	}
 
 	render() {
-		let allPropsAreSetted = Object.values(this.props).every(item => item !== null);
+		// let allPropsAreSetted = Object.values(this.props).every(item => item !== null || undefined);
+		let allPropsAreSetted = Object.values(this.props).every(item => !!item);
 		return (
-
-
 		<div>
-			{allPropsAreSetted &&
-			<p> {this.props.amount} {this.props.mainSymbol} = {this._countEquivalent(this.props.amount, this.props.equivalent)} {this.props.comparedSymbol}</p>
-			|| <p>Select currency, please</p>}
+			{allPropsAreSetted
+				? <p> {this.props.amount} {this.props.mainSymbol} = {this._countEquivalent(this.props.amount, this.props.equivalent)} {this.props.comparedSymbol}</p>
+				: <p>Select currency, please</p>
+			}
 		</div>
 		);
 	}
