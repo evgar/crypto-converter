@@ -57,8 +57,8 @@ class App extends Component {
 	}
 
 	_handleCurrencyChange(value) {
-		let comparedCurrrency = this.topCurrencies.find(item => item.symbol === value).quotes.USD.price;
-		let equivalentToBTC = ((this.mainCurrency.quotes.USD.price / comparedCurrrency) * 1000) / 1000;
+		let comparedCurrrency = this.topCurrencies.find(item => item.symbol === value);
+		let equivalentToBTC = ((this.mainCurrency.quotes.USD.price / comparedCurrrency.quotes.USD.price) * 1000) / 1000;
 		this.setState({currentEquivalentToBTC: equivalentToBTC, comparableCurrencySymbol: comparedCurrrency.symbol})
 	}
 

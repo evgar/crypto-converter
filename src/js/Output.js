@@ -6,8 +6,8 @@ class Output extends Component{
 	render() {
 		let allPropsAreSetted = Object.values(this.props).every(item => item !== null || undefined);
 		let totalAmount = (this.props.equivalent * this.props.amount).toFixed(3);
+		console.log(this.props);
 		return (
-
 			<div>
 				{allPropsAreSetted
 					? <p> {this.props.amount} {this.props.mainSymbol} = {totalAmount} {this.props.comparedSymbol}</p>
