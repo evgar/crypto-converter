@@ -66,13 +66,13 @@ class App extends Component {
 
 		return (
 			<section>
-				<p>Hello</p>
+				<h3>Currency converter</h3>
+				<div className="form-control input-block">
 					<AmountSelector symbol={this.mainCurrency.symbol} amount={this.state.amount} onAmmountSelectorChange={this._handleAmountChange} />
-
 					<CurrencySelector currencies={this.topCurrencies} onCurrencySelectorChange={this._handleCurrencyChange} />
-
-					<Output amount={this.state.amount} mainSymbol={this.mainCurrency.symbol}
-					equivalent={this.state.currentEquivalentToBTC} comparedSymbol={this.state.comparableCurrencySymbol}/>
+				</div>
+				<Output amount={this.state.amount} mainSymbol={this.mainCurrency.symbol}
+				equivalent={this.state.currentEquivalentToBTC} comparedSymbol={this.state.comparableCurrencySymbol}/>
 			</section>
 		)
 	}

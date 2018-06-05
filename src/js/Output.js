@@ -10,7 +10,7 @@ class Output extends Component{
 			<div>
 				{allPropsAreSetted
 					? <p> {this.props.amount} {this.props.mainSymbol} = {this.props.equivalent * this.props.amount} {this.props.comparedSymbol}</p>
-					: <p>Select currency, please</p>
+					: <p className="output">Select currency, please</p>
 				}
 			</div>
 		);

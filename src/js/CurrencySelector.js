@@ -12,7 +12,7 @@ class CurrencySelector extends Component {
 	render() {
 		let visibility = this.state.selected ? '' : 'hidden';
 		return (
-			<select onChange={(e) => this._handleChange(e)} defaultValue='default'>
+			<select className='form-control' onChange={(e) => this._handleChange(e)} defaultValue='default'>
 				<option disabled value='default' className={visibility}> Select currency </option>
 				{Object.values(this.props.currencies)
 					.map((currency, i) =>

@@ -10,7 +10,7 @@ class AmountSelector extends Component {
 	render() {
 		return (
 			<label>{this.props.symbol}
-				<input onChange={(e) => this._handleChange(e)} type="number" min="1" value={this.props.amount} />
+				<input className="form-control" onChange={(e) => this._handleChange(e)} type="number" min="1" value={this.props.amount} />
 			</label>
 		);
 	}
