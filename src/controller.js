@@ -5,9 +5,8 @@ class Controller {
 		this.view = view;
 
 		model.on('initialLoad', this.setInitialState.bind(this));
-
-		view.on('currencyChange', this.changeCurrency.bind(this));
-		view.on('counterChange', this.changeCounter.bind(this));
+		view.on('currencyChange', this.updateCurrency.bind(this));
+		view.on('counterChange', this.updateCounter.bind(this));
 
 		this.getCurrencies();
 	}
@@ -22,12 +21,14 @@ class Controller {
 		this.view.renderOptionsList(topCurrencies);
 	}
 
-	changeCurrency(some) {
-		console.log(some.value);
+	updateCurrency(target) {
+		this.model.changeComparedCurrency(target);
+		this.model.calculateEquivalent();
 	}
 
-	changeCounter(some) {
-		console.log(some.value);
+	updateCounter(target) {
+		this.model.changeCounter(target.value);
+		this.model.calculateEquivalent();
 	}
 
 
