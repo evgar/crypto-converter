@@ -1,4 +1,4 @@
-import { getResponseFromAPI, EventEmitter} from './helpers';
+import { getResponseFromAPI} from './helpers';
 class Controller {
 	constructor (model, view) {
 		this.model = model;
@@ -18,7 +18,7 @@ class Controller {
 		});
 	}
 
-	setInitialState({mainCurrency, topCurrencies}) {
+	setInitialState({topCurrencies}) {
 		this.view.renderOptionsList(topCurrencies);
 	}
 
@@ -35,8 +35,6 @@ class Controller {
 	updateOutput({props}) {
 		this.view.renderOutput(props);
 	}
-
-
 }
 
 export default Controller;

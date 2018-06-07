@@ -35,12 +35,8 @@ class View extends EventEmitter{
 	}
 
 	addEventListeners(selectList, mainCurrency) {
-		this.selectList.addEventListener('change', (event) => {
-			this.handleCurrencyChange.bind(this);
-			event.target[0].classList.add('hidden');
-		});
+		this.selectList.addEventListener('change', this.handleCurrencyChange.bind(this));
 		this.mainCurrency.addEventListener('input', this.handleCounterChange.bind(this))
-		// document.querySelector('options[0]')
 	}
 
 	handleCurrencyChange({ target }) {
@@ -53,17 +49,3 @@ class View extends EventEmitter{
 }
 
 export default View;
-
-
-//
-// outputTemplate() {
-//
-// 	if(){
-// 		return `${mainCurrency.value} BTC = ${compareCurrencyPrice * mainCurrency.value} ${compareCurrencyCode}`;
-//
-// 	}
-// }
-//
-// findSelectedOption(id) {
-// 	return this.list.querySelector(`[data-id="${id}"]`);
-// }
