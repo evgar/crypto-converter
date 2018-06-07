@@ -12,7 +12,7 @@ class View extends EventEmitter {
 	}
 
 	renderOptionsList(currencies) {
-		let emptyOption = `<option class="hidden" disabled selected value> Select currency </option>`;
+		let emptyOption = `<option class="hidden alert" disabled selected value> Select currency </option>`;
 		let optionsHTML =
 			Object.keys(currencies)
 				.map(item => this.optionTemplate(currencies[item]))
@@ -21,6 +21,7 @@ class View extends EventEmitter {
 	}
 
 	renderOutput(props) {
+		document.querySelector('.output').classList.remove('alert');
 		this.outputInfo.innerHTML = this.outputTemplate(props);
 	}
 

@@ -46,6 +46,10 @@ section {
 }
 
 .output {
+	padding: 20px;
 	font-weight: bold;
+}
+
+.alert {
 	color: #ff8a8a;
 }
