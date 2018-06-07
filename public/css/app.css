@@ -1,20 +1,51 @@
-.calculator {
+body {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.input-block {
-
-}
-.comparable-currency {
-	margin: 10px;
-}
-
-.currencies-list {
-	margin: 10px;
-	min-width: 150px;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+	justify-content: center;
 }
 
 .hidden {
 	display: none;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 30%;
+}
+
+.root {
+	display: flex;
+	justify-content: center;
+	height: 100vh;
+}
+
+.input-block {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.input-block label {
+	display: flex;
+	align-items: center;
+	width: 30%;
+	margin: 0;
+}
+
+.input-block label > input {
+	margin-left: 10px;
+}
+
+.input-block select {
+	width: 50%;
+}
+
+.output {
+	font-weight: bold;
+	color: #ff8a8a;
 }
