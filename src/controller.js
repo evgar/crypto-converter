@@ -6,6 +6,9 @@ class Controller {
 
 		model.on('initialLoad', this.setInitialState.bind(this));
 
+		view.on('currencyChange', this.changeCurrency.bind(this));
+		view.on('counterChange', this.changeCounter.bind(this));
+
 		this.getCurrencies();
 	}
 
@@ -16,10 +19,16 @@ class Controller {
 	}
 
 	setInitialState({mainCurrency, topCurrencies}) {
-		console.log(mainCurrency);
-		console.log(topCurrencies);
+		this.view.renderOptionsList(topCurrencies);
 	}
 
+	changeCurrency(some) {
+		console.log(some.value);
+	}
+
+	changeCounter(some) {
+		console.log(some.value);
+	}
 
 
 }
