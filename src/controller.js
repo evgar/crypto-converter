@@ -1,16 +1,26 @@
-import { getDataFromAPI } from './helpers';
-
+import { getResponseFromAPI, EventEmitter} from './helpers';
 class Controller {
 	constructor (model, view) {
 		this.model = model;
 		this.view = view;
+
+		model.on('initialLoad', this.setInitialState.bind(this));
+
+		this.getCurrencies();
 	}
 
-	addCurrencies() {
-		let data= getDataFromAPI;
-		console.log(data);
-
+	getCurrencies() {
+		getResponseFromAPI().then(response => {
+			return this.model.processResponse(response);
+		});
 	}
+
+	setInitialState({mainCurrency, topCurrencies}) {
+		console.log(mainCurrency);
+		console.log(topCurrencies);
+	}
+
+
 
 }
 

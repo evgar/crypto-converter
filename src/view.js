@@ -1,20 +1,27 @@
-class View {
+import { EventEmitter } from './helpers';
+
+class View extends EventEmitter{
 	constructor() {
+		super();
 
 		this.mainCurrency = document.querySelector('.main-currency');
 		this.outputInfo = document.querySelector('.output');
 		this.selectList = document.querySelector('.select-list');
 	}
 
-	// render() {
-	//
-	// }
-	//
-	// optionTemplate(currencyCode) {
-	// 	return `
-	// 		<option>${currencyCode}</option>
-	// 	`
-	// }
+	renderOptionsList(currencies) {
+		// let selectHTML =
+		// 	Object.keys(currencies)
+		// 	.map(item => this.optionTemplate(currencies[item]))
+		// 	.join('');
+		// console.log(currencies);
+	}
+
+	optionTemplate(currencyCode) {
+		return `
+			<option>${currencyCode}</option>
+		`
+	}
 	//
 	// outputTemplate() {
 	//
