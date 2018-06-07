@@ -19,6 +19,14 @@ class View extends EventEmitter{
 		this.selectList.innerHTML = optionsHTML;
 	}
 
+	renderOutput(props) {
+		this.outputInfo.innerHTML = this.outputTemplate(props);
+	}
+
+	outputTemplate(props) {
+		return `${props.counter} ${props.mainCurrencySymbol} = ${props.equivalent} ${props.comparedCurrencySymbol}`;
+	}
+
 	optionTemplate(currencyCode) {
 		return `
 			<option>${currencyCode}</option>

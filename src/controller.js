@@ -7,6 +7,7 @@ class Controller {
 		model.on('initialLoad', this.setInitialState.bind(this));
 		view.on('currencyChange', this.updateCurrency.bind(this));
 		view.on('counterChange', this.updateCounter.bind(this));
+		model.on('equivalentIsCounted', this.updateOutput.bind(this));
 
 		this.getCurrencies();
 	}
@@ -26,9 +27,13 @@ class Controller {
 		this.model.calculateEquivalent();
 	}
 
-	updateCounter(target) {
-		this.model.changeCounter(target.value);
+	updateCounter({ value }) {
+		this.model.changeCounter(value);
 		this.model.calculateEquivalent();
+	}
+
+	updateOutput({props}) {
+		this.view.renderOutput(props);
 	}
 
 

@@ -58,6 +58,25 @@ class Model extends EventEmitter{
 
 		this.equivalent = templatePrice && comparedPrice !== null || undefined ?
 			((templatePrice / comparedPrice) * this.counter).toFixed(3) : null;
+
+		this.getPropertiesForOutput();
+	}
+
+	getPropertiesForOutput() {
+		let props = {
+			counter: this.counter,
+			mainCurrencySymbol: this.mainCurrency.symbol,
+			equivalent: this.equivalent,
+			comparedCurrencySymbol: this.comparedCurrency.symbol
+		};
+
+		let allPropsAreSetted = Object.values(props).every(
+			item => item !== null || undefined
+		);
+		if(allPropsAreSetted) {
+			this.emit('equivalentIsCounted', { props });
+		}
+
 	}
 
 }
