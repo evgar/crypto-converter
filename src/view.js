@@ -1,6 +1,6 @@
-import { EventEmitter } from './helpers';
+import {EventEmitter} from './helpers';
 
-class View extends EventEmitter{
+class View extends EventEmitter {
 	constructor() {
 		super();
 
@@ -15,8 +15,8 @@ class View extends EventEmitter{
 		let emptyOption = `<option class="hidden" disabled selected value> Select currency </option>`;
 		let optionsHTML =
 			Object.keys(currencies)
-			.map(item => this.optionTemplate(currencies[item]))
-			.join('');
+				.map(item => this.optionTemplate(currencies[item]))
+				.join('');
 		this.selectList.innerHTML = emptyOption + optionsHTML;
 	}
 
@@ -34,16 +34,16 @@ class View extends EventEmitter{
 		`
 	}
 
-	addEventListeners(selectList, mainCurrency) {
+	addEventListeners() {
 		this.selectList.addEventListener('change', this.handleCurrencyChange.bind(this));
 		this.mainCurrency.addEventListener('input', this.handleCounterChange.bind(this))
 	}
 
-	handleCurrencyChange({ target }) {
-		this.emit('currencyChange', target );
+	handleCurrencyChange({target}) {
+		this.emit('currencyChange', target);
 	}
 
-	handleCounterChange({ target }) {
+	handleCounterChange({target}) {
 		this.emit('counterChange', target);
 	}
 }

@@ -1,6 +1,6 @@
-import { getResponseFromAPI, EventEmitter} from './helpers';
+import {getResponseFromAPI, EventEmitter} from './helpers';
 
-class Model extends EventEmitter{
+class Model extends EventEmitter {
 	constructor() {
 		super();
 
@@ -42,7 +42,7 @@ class Model extends EventEmitter{
 		this.mainCurrency.price = mainCurrency.quotes.USD.price;
 	}
 
-	changeComparedCurrency({ value }) {
+	changeComparedCurrency({value}) {
 		let selectedCurrency = this.topCurrencies.find(currency => currency.symbol === value);
 		this.comparedCurrency.symbol = selectedCurrency.symbol;
 		this.comparedCurrency.price = selectedCurrency.quotes.USD.price;
@@ -73,8 +73,8 @@ class Model extends EventEmitter{
 		let allPropsAreSetted = Object.values(props).every(
 			item => item !== null || undefined
 		);
-		if(allPropsAreSetted) {
-			this.emit('equivalentIsCounted', { props });
+		if (allPropsAreSetted) {
+			this.emit('equivalentIsCounted', {props});
 		}
 
 	}

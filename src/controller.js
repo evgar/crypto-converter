@@ -1,6 +1,7 @@
-import { getResponseFromAPI} from './helpers';
+import {getResponseFromAPI} from './helpers';
+
 class Controller {
-	constructor (model, view) {
+	constructor(model, view) {
 		this.model = model;
 		this.view = view;
 
@@ -27,7 +28,7 @@ class Controller {
 		this.model.calculateEquivalent();
 	}
 
-	updateCounter({ value }) {
+	updateCounter({value}) {
 		this.model.changeCounter(value);
 		this.model.calculateEquivalent();
 	}

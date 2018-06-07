@@ -1,8 +1,8 @@
 function getResponseFromAPI() {
-		return fetch('https://api.coinmarketcap.com/v2/ticker/')
-			.then(response => response.json())
-			.then(data => data)
-			.catch(error => 'Request failed' + error);
+	return fetch('https://api.coinmarketcap.com/v2/ticker/')
+		.then(response => response.json())
+		.then(data => data)
+		.catch(error => 'Request failed' + error);
 }
 
 class EventEmitter {
