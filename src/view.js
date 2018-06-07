@@ -12,11 +12,12 @@ class View extends EventEmitter{
 	}
 
 	renderOptionsList(currencies) {
+		let emptyOption = `<option class="hidden" disabled selected value> Select currency </option>`;
 		let optionsHTML =
 			Object.keys(currencies)
 			.map(item => this.optionTemplate(currencies[item]))
 			.join('');
-		this.selectList.innerHTML = optionsHTML;
+		this.selectList.innerHTML = emptyOption + optionsHTML;
 	}
 
 	renderOutput(props) {
@@ -34,8 +35,12 @@ class View extends EventEmitter{
 	}
 
 	addEventListeners(selectList, mainCurrency) {
-		this.selectList.addEventListener('change', this.handleCurrencyChange.bind(this));
+		this.selectList.addEventListener('change', (event) => {
+			this.handleCurrencyChange.bind(this);
+			event.target[0].classList.add('hidden');
+		});
 		this.mainCurrency.addEventListener('input', this.handleCounterChange.bind(this))
+		// document.querySelector('options[0]')
 	}
 
 	handleCurrencyChange({ target }) {
