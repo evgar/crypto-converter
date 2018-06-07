@@ -11,8 +11,7 @@ class Output extends Component {
 			<div>
 				{allPropsAreSetted ? (
 					<p>
-						{this.props.amount} {this.props.mainSymbol} = {totalAmount}
-						{this.props.comparedSymbol}
+						{this.props.amount} {this.props.mainSymbol} = {totalAmount} {this.props.comparedSymbol}
 					</p>
 				) : (
 					<p className="output">Select currency, please</p>
